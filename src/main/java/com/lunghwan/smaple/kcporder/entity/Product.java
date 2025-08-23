@@ -36,13 +36,21 @@ public class Product {
     @Enumerated(EnumType.STRING)
     private Category category;
 
-    @CreatedDate
-    @Column(name = "CREATED_AT", updatable = false)
+    @Column(name = "CREATE_TIME", updatable = false)
     private LocalDateTime createTime;
 
-    @LastModifiedDate
-    @Column(name = "UPDATED_AT")
+    @Column(name = "UPDATE_TIME")
     private LocalDateTime updatedTime;
 
+    @PrePersist
+    public void prePersist() {
+        LocalDateTime now = LocalDateTime.now();
+        this.createTime = now;
+        this.updatedTime = now;
+    }
 
+    @PreUpdate
+    public void preUpdate() {
+        this.updatedTime = LocalDateTime.now();
+    }
 }
